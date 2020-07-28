@@ -6,20 +6,21 @@ import * as path from "path";
 const server = http.createServer();
 
 server.on("request", (request: IncomingMessage, response: ServerResponse) => {
-  // console.log(request.url);
-  // console.log(request.method);
-  // console.log(request.headers);
-
-  let requestFile = request.url;
+  const {url, method, headers} = request;
+  let requestFile = url;
 
   if ("/" === request.url) {
     requestFile = "index.html";
   }
-  const data = fs.readFileSync(path.join("public", requestFile));
-  // response.write(data);
-  // response.setHeader("liuernan", "hahaha");
-  // response.statusCode = 404;
-  response.end(data);
+  fs.readFile(path.join("public", requestFile), (error, data) => {
+    if (error) {
+      response.statusCode = 404;
+      response.end("no page for you");
+    } else {
+      response.end(data.toString());
+    }
+  });
+
 });
 
 server.listen(8080);
