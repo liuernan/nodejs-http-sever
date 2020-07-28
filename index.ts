@@ -10,7 +10,12 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
   // console.log(request.method);
   // console.log(request.headers);
 
-  const data = fs.readFileSync(path.join("public", "index.html"));
+  let requestFile = request.url;
+
+  if ("/" === request.url) {
+    requestFile = "index.html";
+  }
+  const data = fs.readFileSync(path.join("public", requestFile));
   // response.write(data);
   // response.setHeader("liuernan", "hahaha");
   // response.statusCode = 404;
