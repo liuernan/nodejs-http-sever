@@ -10,9 +10,9 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
   const {url: requestUrl, method, headers} = request;
   const {pathname} = url.parse(requestUrl);
 
-  if ('GET' === method) {
-    console.log("get method to be handling");
-    console.log(headers);
+  if ("GET" === method) {
+    // console.log("get method to be handling");
+    // console.log(headers);
   }
 
   let requestFile = pathname;
@@ -25,6 +25,10 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
       response.statusCode = 404;
       response.end("no page for you");
     } else {
+      if ("css" === requestFile.split(".")[requestFile.split(".").length - 1]) {
+        response.setHeader("Content-Type", "text/css");
+      }
+
       response.end(data.toString());
     }
   });
