@@ -1,4 +1,4 @@
 const button = document.querySelector("button");
 button.addEventListener("click", () => {
-  window.alert("JavaScript is working.");
+ console.log("JavaScript is working.");
 });
