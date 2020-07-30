@@ -39,7 +39,7 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
       }
 
       response.setHeader("Cache-Control", "public, max-age=600");
-      response.end(data.toString());
+      response.end(data);
     }
   });
 
