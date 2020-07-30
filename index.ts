@@ -7,7 +7,7 @@ import * as url from "url";
 const server = http.createServer();
 
 server.on("request", (request: IncomingMessage, response: ServerResponse) => {
-  const {url: requestUrl, method, headers} = request;
+  const {url: requestUrl, method} = request;
   const {pathname} = url.parse(requestUrl);
 
   if ("GET" !== method) {
