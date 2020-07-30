@@ -12,7 +12,7 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
 
   if ("GET" !== method) {
     response.statusCode = 405;
-    response.end("Server do not allow POST Request now.");
+    response.end("Server only handling Request with GET method.");
     return;
   }
 
