@@ -4,8 +4,9 @@ import * as fs from "fs";
 import * as path from "path";
 import * as url from "url";
 
-const server = http.createServer();
+const baseDir = path.resolve(__dirname, "public");
 
+const server = http.createServer();
 server.on("request", (request: IncomingMessage, response: ServerResponse) => {
   const {url: requestUrl, method} = request;
   let {pathname} = url.parse(requestUrl);
@@ -18,11 +19,12 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
 
 
   if ("/" === pathname) {
-    pathname = "index.html";
+    pathname = "/index.html";
   }
 
-  fs.readFile(path.join("public", pathname), (error, data) => {
+  fs.readFile(path.resolve(baseDir, pathname.substring(1)), (error, data) => {
     if (error) {
+      console.log(error);
       if ("ENOENT" === error.code) {
         response.statusCode = 404;
         response.end("no page for you");
@@ -32,7 +34,7 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
       }
 
     } else {
-      if ("css" === pathname.split(".")[pathname.split(".").length - 1]) {
+      if ("css" === pathname.substring(1).split(".")[1]) {
         response.setHeader("Content-Type", "text/css");
       }
 
