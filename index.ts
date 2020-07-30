@@ -8,7 +8,7 @@ const server = http.createServer();
 
 server.on("request", (request: IncomingMessage, response: ServerResponse) => {
   const {url: requestUrl, method} = request;
-  const {pathname} = url.parse(requestUrl);
+  let {pathname} = url.parse(requestUrl);
 
   if ("GET" !== method) {
     response.statusCode = 405;
@@ -16,12 +16,12 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
     return;
   }
 
-  let requestFile = pathname;
 
-  if ("/" === request.url) {
-    requestFile = "index.html";
+  if ("/" === pathname) {
+    pathname = "index.html";
   }
-  fs.readFile(path.join("public", requestFile), (error, data) => {
+
+  fs.readFile(path.join("public", pathname), (error, data) => {
     if (error) {
       if ("ENOENT" === error.code) {
         response.statusCode = 404;
@@ -32,7 +32,7 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
       }
 
     } else {
-      if ("css" === requestFile.split(".")[requestFile.split(".").length - 1]) {
+      if ("css" === pathname.split(".")[pathname.split(".").length - 1]) {
         response.setHeader("Content-Type", "text/css");
       }
 
