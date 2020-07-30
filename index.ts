@@ -10,9 +10,10 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
   const {url: requestUrl, method, headers} = request;
   const {pathname} = url.parse(requestUrl);
 
-  if ("GET" === method) {
-    // console.log("get method to be handling");
-    // console.log(headers);
+  if ("GET" !== method) {
+    response.statusCode = 405;
+    response.end("Server do not allow POST Request now.");
+    return;
   }
 
   let requestFile = pathname;
