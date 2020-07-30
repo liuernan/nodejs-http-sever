@@ -36,6 +36,7 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
         response.setHeader("Content-Type", "text/css");
       }
 
+      response.setHeader("Cache-Control", "public, max-age=600");
       response.end(data.toString());
     }
   });
