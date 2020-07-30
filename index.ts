@@ -23,8 +23,14 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
   }
   fs.readFile(path.join("public", requestFile), (error, data) => {
     if (error) {
-      response.statusCode = 404;
-      response.end("no page for you");
+      if ("ENOENT" === error.code) {
+        response.statusCode = 404;
+        response.end("no page for you");
+      } else {
+        response.statusCode = 500;
+        response.end("server being busy, try again later");
+      }
+
     } else {
       if ("css" === requestFile.split(".")[requestFile.split(".").length - 1]) {
         response.setHeader("Content-Type", "text/css");
