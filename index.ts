@@ -25,7 +25,7 @@ server.on("request", (request: IncomingMessage, response: ServerResponse) => {
   fs.readFile(path.resolve(baseDir, pathname.substring(1)), (error, data) => {
     if (error) {
       console.log(error);
-      if ("ENOENT" === error.code) {
+      if (-2 === error.errno) {  // macOS 10.14.6 (18G4032)
         response.statusCode = 404;
         response.end("no page for you");
       } else {
